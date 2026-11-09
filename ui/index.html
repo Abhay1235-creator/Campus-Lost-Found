@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f7f4">
+    <title>Campus Lost &amp; Found</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#board" aria-label="Campus Lost and Found home">
+        <span class="brand-mark" aria-hidden="true">↗</span>
+        <span>Campus <strong>Found</strong></span>
+      </a>
+      <nav aria-label="Main navigation">
+        <button class="nav-button active" data-view="board">Browse items</button>
+        <button class="nav-button" data-view="report">Report an item</button>
+        <button class="nav-button" data-view="admin">Staff review</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="hero">
+        <div>
+          <p class="eyebrow">A little help goes a long way</p>
+          <h1>Lost something?<br><span>Let’s bring it back.</span></h1>
+          <p class="hero-copy">Browse recent campus reports or share a few details about what you found.</p>
+          <button class="button button-dark" data-go="report">Post a report <span aria-hidden="true">→</span></button>
+        </div>
+        <div class="hero-slideshow" id="hero-slideshow" role="region" aria-roledescription="carousel" aria-label="Campus lost and found items">
+          <div class="hero-slide-stage">
+            <img id="hero-slide-image" src="/images/slideshow/lost-keys-landscape.webp" alt="Silver keys with a lime-green tag on a campus library table" fetchpriority="high">
+            <div class="hero-slide-shade" aria-hidden="true"></div>
+            <div class="hero-slide-copy"><span class="hero-slide-kicker" id="hero-slide-kicker">Campus essentials</span><strong id="hero-slide-title">Keys, found together.</strong></div>
+          </div>
+          <div class="hero-slide-controls">
+            <button class="slide-arrow" id="hero-slide-prev" type="button" aria-label="Previous photo">&larr;</button>
+            <div class="hero-slide-dots" role="group" aria-label="Choose a photo">
+              <button type="button" data-slide-to="0" aria-label="Show keys" aria-current="true"></button>
+              <button type="button" data-slide-to="1" aria-label="Show laptop" aria-current="false"></button>
+              <button type="button" data-slide-to="2" aria-label="Show backpack" aria-current="false"></button>
+              <button type="button" data-slide-to="3" aria-label="Show student ID card" aria-current="false"></button>
+            </div>
+            <button class="slide-arrow" id="hero-slide-next" type="button" aria-label="Next photo">&rarr;</button>
+            <button class="slide-playback" id="hero-slide-toggle" type="button" aria-label="Pause automatic slideshow">Pause</button>
+          </div>
+          <p class="sr-only" id="hero-slide-status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="hero hero-context hero-report" id="report-hero" aria-labelledby="report-hero-title" hidden>
+        <div class="hero-context-copy">
+          <p class="eyebrow">Every detail helps</p>
+          <h1 id="report-hero-title">Tell us what went missing.<br><span>Help it find its way home.</span></h1>
+          <p class="hero-copy">Add a photo and a few details. Keep one identifying clue private so staff can verify the right person.</p>
+          <div class="hero-steps" aria-label="Three simple steps"><span><b>01</b> Describe</span><span><b>02</b> Add a photo</span><span><b>03</b> Submit</span></div>
+        </div>
+        <div class="hero-illustration report-illustration" aria-hidden="true"><div class="hero-orbit"></div><div class="illustration-card"><span class="illustration-icon">＋</span><span class="illustration-line"></span><span class="illustration-line short"></span><span class="illustration-photo">▧</span></div><span class="illustration-badge">A little detail<br>goes a long way</span></div>
+      </section>
+
+      <section class="hero hero-context hero-staff" id="admin-hero" aria-labelledby="admin-hero-title" hidden>
+        <div class="hero-context-copy">
+          <p class="eyebrow">A trusted campus handoff</p>
+          <h1 id="admin-hero-title">Review with care.<br><span>Reconnect with confidence.</span></h1>
+          <p class="hero-copy">Check ownership claims and found-item reports, then help each item make a safe return.</p>
+          <div class="hero-steps" aria-label="Review workflow"><span><b>01</b> Check details</span><span><b>02</b> Verify</span><span><b>03</b> Resolve</span></div>
+        </div>
+        <div class="hero-illustration staff-illustration" aria-hidden="true"><div class="review-orbit"></div><div class="review-stack"><div class="review-row"><span class="review-check">✓</span><span><i></i><i></i></span><b>Claim</b></div><div class="review-row"><span class="review-check">✓</span><span><i></i><i></i></span><b>Found</b></div><div class="review-stamp">REVIEW<br>WITH CARE</div></div></div>
+      </section>
+
+      <section class="view active" id="board-view" aria-labelledby="board-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">The community board</p><h2 id="board-title">Recently reported</h2></div>
+          <span class="result-count" id="result-count"></span>
+        </div>
+        <form class="filters" id="filter-form">
+          <label class="search-box"><span class="sr-only">Search items</span><span aria-hidden="true">⌕</span><input name="q" type="search" placeholder="Search items, places…"></label>
+          <label><span class="sr-only">Filter by report type</span><select name="kind"><option value="">All reports</option><option value="lost">Lost</option><option value="found">Found</option></select></label>
+          <button class="button button-outline" type="submit">Search</button>
+        </form>
+        <div class="notice" id="board-notice" role="status" hidden></div>
+        <div class="item-grid" id="item-grid" aria-live="polite"></div>
+        <div class="pagination"><button class="button button-outline" id="previous-page" disabled>← Previous</button><span id="page-label">Page 1</span><button class="button button-outline" id="next-page" disabled>Next →</button></div>
+      </section>
+
+      <section class="view" id="report-view" aria-labelledby="report-title" hidden>
+        <div class="form-shell">
+          <div class="section-heading"><div><p class="eyebrow">Help someone find their way back</p><h2 id="report-title">Report an item</h2></div><span class="step-pill">About 1 minute</span></div>
+          <p class="form-intro">Share a clear public description. Keep identifying clues and your contact details private so staff can help verify a claim.</p>
+          <form id="report-form" class="form-card">
+            <div class="field-row">
+              <label>Is it lost or found?<select name="kind" required><option value="lost">I lost something</option><option value="found">I found something</option></select></label>
+              <label>Category<select name="categoryChoice" id="category-choice" required>
+                <option value="" selected disabled>Choose a category</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Keys">Keys</option>
+                <option value="Bags">Bags</option>
+                <option value="Books & stationery">Books &amp; stationery</option>
+                <option value="other">Other</option>
+              </select></label>
+              <label id="category-other-label" hidden>Enter a category<input name="categoryOther" id="category-other" maxlength="80" placeholder="For example, water bottle"></label>
+            </div>
+            <label>Short title<input name="title" maxlength="120" placeholder="Blue water bottle" required></label>
+            <label>Public description<textarea name="description" maxlength="2000" rows="3" placeholder="Describe the item without sharing private identifying details." required></textarea></label>
+            <label>Item photo *<input name="image" type="file" accept="image/jpeg,image/png,image/webp" required><span class="field-help">JPEG, PNG, or WebP · up to 8 MB</span></label>
+            <div class="field-row">
+              <label>Where was it lost or found?<input name="location" maxlength="120" placeholder="Building or campus area" required></label>
+              <label>Approximate date<input name="occurredAt" type="date" required></label>
+            </div>
+            <div class="private-panel"><p class="private-title"><span aria-hidden="true">◈</span> Private details for staff</p><p>These details are encrypted and are not shown on the public board.</p>
+              <div class="field-row"><label>Your name<input name="reporterName" maxlength="120" autocomplete="name" placeholder="Name"></label><label>Email or phone<input name="reporterContact" maxlength="320" autocomplete="email" placeholder="How staff can reach you"></label></div>
+              <label>Private identifying clues<textarea name="privateDetails" maxlength="1500" rows="2" placeholder="A serial number, contents, or another detail only the owner would know"></textarea></label>
+            </div>
+            <div class="form-actions"><button class="button button-dark" type="submit">Submit report <span aria-hidden="true">→</span></button><span class="form-status" id="report-status" role="status"></span></div>
+          </form>
+        </div>
+      </section>
+
+      <section class="view" id="admin-view" aria-labelledby="admin-title" hidden>
+        <div class="section-heading"><div><p class="eyebrow">For campus staff</p><h2 id="admin-title">Staff review</h2></div></div>
+        <form class="admin-login" id="admin-form"><label>Admin access token<input type="password" name="token" autocomplete="current-password" placeholder="Enter the configured admin token" required></label><button class="button button-dark" type="submit">Load pending reviews</button></form>
+        <div class="notice" id="admin-notice" role="status" hidden></div>
+        <div class="admin-queue-section"><h3>Ownership claims</h3><div class="claim-list" id="claim-list"></div></div>
+        <div class="admin-queue-section"><h3>Reports from people who found a lost item</h3><div class="claim-list" id="found-report-list"></div></div>
+      </section>
+    </main>
+
+    <dialog id="detail-dialog" class="detail-dialog">
+      <button class="dialog-close" id="close-dialog" aria-label="Close item details">×</button>
+      <div id="detail-content"></div>
+      <form id="claim-form" class="claim-form">
+        <h3>Think it might be yours?</h3><p>Send a private claim to staff. Tell them how to contact you and share a detail that helps confirm it belongs to you.</p>
+        <input type="hidden" name="itemId">
+        <label>Your name<input name="claimantName" maxlength="120" autocomplete="name" required></label>
+        <label>Email or phone<input name="claimantContact" maxlength="320" autocomplete="email" required></label>
+        <label>What can help identify it?<textarea name="message" maxlength="2000" rows="3" required></textarea></label>
+        <div class="form-actions"><button class="button button-dark" type="submit">Send claim</button><span class="form-status" id="claim-status" role="status"></span></div>
+      </form>
+      <form id="found-report-form" class="claim-form" hidden>
+        <h3>I found this item</h3><p>Tell staff how to reach you and where you found it. Your details will be kept private.</p>
+        <input type="hidden" name="itemId">
+        <label>Your name<input name="finderName" maxlength="120" autocomplete="name" required></label>
+        <label>Email or phone<input name="finderContact" maxlength="320" autocomplete="email" required></label>
+        <label>Where did you find it?<input name="foundLocation" maxlength="120" required></label>
+        <label>Anything else that may help?<textarea name="message" maxlength="2000" rows="3"></textarea></label>
+        <div class="form-actions"><button class="button button-dark" type="submit">Send to staff</button><span class="form-status" id="found-report-status" role="status"></span></div>
+      </form>
+    </dialog>
+    <footer><span class="brand-mark" aria-hidden="true">↗</span> A campus community project <span class="footer-dot">•</span> Take care of one another.</footer>
+  </body>
+</html>

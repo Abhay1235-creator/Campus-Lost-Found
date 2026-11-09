@@ -1,0 +1,24 @@
+{
+  "name": "campus-lost-and-found-api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "POC API for campus lost-and-found reports and public board",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "seed": "node ../database/seed/seed.js",
+    "migrate:atlas": "node ../database/migrate-to-atlas.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongodb": "^6.12.0",
+    "multer": "^2.5.0",
+    "sharp": "^0.35.5"
+  }
+}

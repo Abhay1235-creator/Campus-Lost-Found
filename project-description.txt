@@ -1,0 +1,31 @@
+TRACK J · Node.js + MongoDB. Sharp for image resizing and automatic EXIF stripping. Text matching with
+MongoDB text search or Meilisearch is sufficient for v1. Perceptual hashing or a lightweight embedding model for
+image similarity is a stretch goal only.. Path P3 is worth considering if the public board should be indexed by search engines.
+Do not let a team gold-plate this with a vision model in the first release. Text and attribute matching is
+what the acceptance criteria measure.
+8. Technical Requirements (deltas) Frontend (both): mobile-first reporting flow completable in under 60
+seconds; camera capture; location picker on a campus map; public board with infinite scroll. Backend (both): match
+suggestions generated on report creation and refreshed nightly; private fields stored encrypted and never included
+in any public response – enforce this structurally, not by remembering to omit them. Data model
+(both): Item, ItemCategory, Location, PrivateDetail (encrypted), MatchSuggestion, Claim, VerificationChallenge,
+CustodyRecord, Handover, DisposalRecord, AuditEntry. API (both): /items, /items/:id/matches, /claims,
+/claims/:id/verify, /handovers, /board (public, redacted). Security (both): the public board endpoint must
+be covered by an explicit test asserting that no private field ever appears in its response, for every item state.
+TRACK J · Node.js + MongoDB. Enforce redaction in a serialisation layer – a dedicated public DTO that the
+private fields cannot reach.
+9. Admin Dashboard Item inventory by custody location · pending claims and verification queue · match
+review · ageing and disposal queue · category and retention configuration · return-rate reporting.
+10. Reporting & Analytics Items reported against returned, giving the return rate · median time to return ·
+loss hotspots by campus location and time · category distribution · unclaimed volume and disposal · verification
+failure rate, which is a signal for false claims.
+11. Notifications & Communication Possible match found for your lost item · claim submitted on your found
+item · verification required · handover scheduled · unclaimed item ageing warning.
+12. Third-Party Integrations ERP and SSO for identity, object storage for images, email and SMS, optionally
+campus CCTV location reference – metadata only, no video.
+13. Expected Deliverables Per CES.
+14. Development Milestones M0 discovery (1w) · M1 reporting and public board (2w) · M2 matching and
+private verification (2w) · M3 claims and handover (2w) · M4 disposal, reports, UAT, production (1w).
+15. Testing Per CES. Specific: private fields never leak on any public endpoint, tested exhaustively across item
+states; competing claims on one item; verification challenge scoring; handover requires the security role.
+16. Deployment
+TRACK J · Node.js + MongoDB. Per CES. The public board benefits from static generation or edge caching.
